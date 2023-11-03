@@ -1,41 +1,57 @@
 package ie.setu.domain.repository
 
 import ie.setu.domain.User
+import ie.setu.domain.db.Users
+import org.jetbrains.exposed.sql.transactions.transaction
+import ie.setu.utils.mapToUser
+import org.jetbrains.exposed.sql.*
 
 class UserDAO {
 
-    private val users = arrayListOf<User>(
-        User(name = "Alice", email = "alice@wonderland.com", id = 0),
-        User(name = "Bob", email = "bob@cat.ie", id = 1),
-        User(name = "Mary", email = "mary@contrary.com", id = 2),
-        User(name = "Carol", email = "carol@singer.com", id = 3)
-    )
-
-    fun getAll() : ArrayList<User>{
-        return users
+    fun getAll(): ArrayList<User> {
+        val userList: ArrayList<User> = arrayListOf()
+        transaction {
+            Users.selectAll().map {
+                userList.add(mapToUser(it)) }
+        }
+        return userList
     }
+
 
     fun findById(id: Int): User?{
-        return users.find {it.id == id}
+        return transaction {
+            Users.select(){ Users.id eq id }.map { mapToUser(it) }.firstOrNull()
+        }
     }
 
-    fun findByEmail(email: String): User?{
-        return users.find {it.email == email}
+    fun findByEmail(email: String): User? {
+        return transaction {
+            Users.select() { Users.email eq email }.map { mapToUser(it) }.firstOrNull()
+        }
     }
 
     fun delete(id: Int){
-        val user = findById(id)
-        users.remove(user)
+        return transaction { Users.deleteWhere { Users.id eq id } }
     }
 
     fun update(id: Int, user: User){
-        val findUser = findById(id)
-        findUser?.email = user.email
-        findUser?.name = user.name
-        findUser?.id = user.id
+        transaction {
+            Users.update ({Users.id eq id}){
+                it[name] = user.name
+                it[email] = user.email
+            }
+        }
     }
 
     fun save(user: User){
-        users.add(user)
+        transaction {
+            Users.insert {
+                it[name] = user.name
+                it[email] = user.email
+            }
+        }
     }
+
+
+
 }

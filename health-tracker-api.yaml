@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: HealthTracker-Api
+  description: This Api provides CRUD operations on the HealthTracker APP
+  contact:
+    name: Britty Abraham
+    email: w20105650@mail.wit.ie
+paths:
+  /api/users:
+    get:
+      responses:
+        200:
+          description: This will output the list of users in the App
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      description: Add a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: The user has been created
+  /api/users/{user_id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: List a user with a specific user-id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Update the user-data with given user-id
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: Delete the user with the given user-id
+  /api/users/email/{user_email}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserEmailPath'
+      responses:
+        200:
+          description: List a user with a specific user-email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+components:
+  parameters:
+    UserIdPath:
+      in: path
+      name: user_id
+      description: User id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 3232
+    UserEmailPath:
+      in: path
+      name: user_email
+      description: User email path parameter
+      required: true
+      schema:
+        type: string
+        example: abc@xyz.com
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3232
+        name:
+          type: string
+          example: Jins Mathew
+        email:
+          type: string
+          example: jins@mathew.com
+      
+                      
