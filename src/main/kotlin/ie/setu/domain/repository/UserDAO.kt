@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import ie.setu.utils.mapToUser
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.Database
-git add
+
 class UserDAO {
 
     fun getAll(): ArrayList<User> {
