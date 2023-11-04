@@ -14,7 +14,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.8.0</kotlin.version>
-        <junit.version>4.11</junit.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <junit.platform.version>1.8.2</junit.platform.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -29,10 +32,17 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Adding JUnit 5 dependency -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Adding Javalin Dependency -->
@@ -76,6 +86,62 @@
             <artifactId>kotlin-logging</artifactId>
             <version>1.12.5</version>
         </dependency>
+        <!-- json dependency for serialising joda date time -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.11.09</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>3.12.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.9</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.gsonfire/gson-fire -->
+        <dependency>
+            <groupId>io.gsonfire</groupId>
+            <artifactId>gson-fire</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -102,6 +168,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin><!-- surefire plugin MOJO - for testing during maven lifecycle-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <includes>
+                        <include>Test*</include>
+                        <include>*Test</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
