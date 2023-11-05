@@ -125,6 +125,29 @@ paths:
       responses:
         200:
           description: The Activity is deleted
+  /api/bmi:
+    post:
+      description: Add a BMI calculated for a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bmireq'
+      responses:
+        200:
+          description: The BMI has been Calculated and saved
+  /api/bmi/{user-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: List all bmi calculated for a specific user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bmi'
+
 components:
   parameters:
     UserIdPath:
@@ -182,5 +205,51 @@ components:
         started:
           type: timestamp
           example: 2020-06-10 05:59:27
-      
-                      
+    Bmireq:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        weight:
+          type: decimal
+          example: 56.2
+        height:
+          type: decimal
+          example: 160
+        age:
+          type: integer
+          example: 45
+        community:
+          type: string
+          example: Asian
+        user-id:
+          type: integer
+          example: 05
+    Bmi:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        weight:
+          type: decimal
+          example: 56.2
+        height:
+          type: decimal
+          example: 160
+        age:
+          type: integer
+          example: 45
+        community:
+          type: string
+          example: Asian
+        bmival:
+          type: decimal
+          example: 22.3
+        bmiresult:
+          type: string
+          example: Healthy
+        createdat:
+          type: timestamp
+          example: 2020-06-10 05:59:27

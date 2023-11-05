@@ -2,6 +2,7 @@ package ie.setu.config
 
 import ie.setu.controllers.UserController
 import ie.setu.controllers.ActivityController
+import ie.setu.controllers.BmiController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
@@ -48,6 +49,12 @@ class JavalinConfig {
                     get(ActivityController::getActivitiesByActivityId)
                     delete(ActivityController::deleteActivityByActivityId)
                     patch(ActivityController::updateActivity)
+                }
+            }
+            path("/api/bmi") {
+                post(BmiController::calculateBmi)
+                path("{user-id}") {
+                    get(BmiController::getbmis)
                 }
             }
         }
