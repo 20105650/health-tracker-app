@@ -7,7 +7,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 
 import ie.setu.domain.User
 
-object HealthTrackerController {
+object UserController {
 
     private val userDao = UserDAO()
 
