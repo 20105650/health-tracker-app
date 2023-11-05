@@ -10,7 +10,7 @@ import ie.setu.utils.jsonToObject
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
 
-object UserActivityController {
+object ActivityController {
 
     private val activityDAO = ActivityDAO()
     private val userDao = UserDAO()

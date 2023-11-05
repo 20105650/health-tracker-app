@@ -56,6 +56,17 @@ paths:
       responses:
         200:
           description: Delete the user with the given user-id
+  /api/users/{user_id}/activities:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: List activities of a specific user-id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
   /api/users/email/{user_email}:
     get:
       parameters:
@@ -67,6 +78,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /api/activities:
+    get:
+      responses:
+        200:
+          description: List all activities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+    post:
+      description: Add an activity to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        200:
+          description: The activity has been created
+  /api/activities/{activity-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/ActivityId'
+      responses:
+        200:
+          description: List an activity with Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/ActivityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        200:
+          description: The activity has been updated
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/ActivityId'
+      responses:
+        200:
+          description: The Activity is deleted
 components:
   parameters:
     UserIdPath:
@@ -85,6 +143,14 @@ components:
       schema:
         type: string
         example: abc@xyz.com
+    ActivityId:
+      in: path
+      name: activity-id
+      description: Activity id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 24
   schemas:
     User:
       type: object
@@ -98,5 +164,23 @@ components:
         email:
           type: string
           example: jins@mathew.com
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        description:
+          type: string
+          example: Running
+        duration:
+          type: decimal
+          example: 13.5
+        calories:
+          type: integer
+          example: 123
+        started:
+          type: timestamp
+          example: 2020-06-10 05:59:27
       
                       
