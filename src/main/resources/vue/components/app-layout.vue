@@ -13,12 +13,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/users">
-                Users <span class="sr-only">(current)</span>
+              <a class="nav-link" href="/users">Users <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/activities">Activities</a>
+              <a class="nav-link" href="/activities">ACTIVITIES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/foods">FOOD</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/excercise">EXERCISE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/biometric">BIOMETRIC</a>
             </li>
           </ul>
         </div>
