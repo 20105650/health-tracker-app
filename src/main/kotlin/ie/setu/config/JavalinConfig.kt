@@ -1,18 +1,21 @@
 package ie.setu.config
 
-import ie.setu.controllers.UserController
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.BmiController
+import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.json.JavalinJackson
 import io.javalin.vue.VueComponent
 
+
+
 class JavalinConfig {
 
     fun startJavalinService(): Javalin {
         val app = Javalin.create{
+
             //added this jsonMapper for our integration tests - serialise objects to json
             it.jsonMapper(JavalinJackson(jsonObjectMapper()))
             it.staticFiles.enableWebjars()
@@ -26,6 +29,7 @@ class JavalinConfig {
         return app
     }
 
+
     private fun registerRoutes(app: Javalin) {
         app.routes {
             path("/api/users") {
@@ -37,6 +41,9 @@ class JavalinConfig {
                     patch(UserController::updateUser)
                     path("activities") {
                         get(ActivityController::getActivitiesByUserId)
+                    }
+                    path("bmis") {
+                        get(BmiController::getBmisByUserId)
                     }
                 }
                 path("email/{user-email}") {
@@ -54,6 +61,9 @@ class JavalinConfig {
             }
             path("/api/bmi") {
                 post(BmiController::calculateBmi)
+                path("{bmi-id}") {
+                    delete(BmiController::deleteBmiById)
+                }
                 path("{user-id}") {
                     get(BmiController::getbmis)
                 }
@@ -65,7 +75,9 @@ class JavalinConfig {
             get("/users", VueComponent("<user-overview></user-overview>"))
             get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
             get("/users/{user-id}/activities", VueComponent("<user-activity-overview></user-activity-overview>"))
-
+            get("/users/{user-id}/bmi", VueComponent("<user-bmi-overview></user-bmi-overview>"))
+            get("/activities", VueComponent("<activities-overview></activities-overview>"))
+            get("/users/{user-id}/water-intakes", VueComponent("<water-intake></water-intake>"))
         }
     }
     private fun getRemoteAssignedPort(): Int {

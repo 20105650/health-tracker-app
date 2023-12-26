@@ -32,6 +32,6 @@ fun mapToBmi(it: ResultRow) = Bmi(
     community = it[Bmis.community],
     bmival = it[Bmis.bmival],
     bmiresult = it[Bmis.bmiresult],
-    userId = it[Bmis.userId],
+    user_id = it[Bmis.userId],
     createdat = it[Bmis.createdat]
 )

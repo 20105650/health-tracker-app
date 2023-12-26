@@ -9,5 +9,5 @@ data class Bmi (var id: Int,
                      var community: String,
                      var bmival: Double,
                      var bmiresult: String? = null,
-                     var userId: Int,
-                     var createdat: DateTime? = null)
+                     var user_id: Int,
+                     var createdat: DateTime)
