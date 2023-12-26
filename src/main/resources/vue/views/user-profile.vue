@@ -45,8 +45,19 @@
         </form>
       </div>
       <div class="card-footer text-center">
-        <div v-if="user">
-          <a :href="`/users/${user.id}/activities`">View User Activities</a>
+        <div class="row">
+        <div class="col-3" v-if="user">
+          <a :href="`/users/${user.id}/activities`">View User Excercises</a>
+        </div>
+        <div class="col-3"  v-if="user">
+          <a :href="`/users/${user.id}/bmi`">Calculate BMI</a>
+        </div>
+        <div class="col-3"  v-if="user">
+          <a :href="`/users/${user.id}/bmi`">Sleep Monitoring</a>
+        </div>
+        <div class="col-3"  v-if="user">
+          <a :href="`/users/${user.id}/water-intakes`">Water Intake</a>
+        </div>
         </div>
       </div>
     </div>
@@ -57,7 +68,11 @@
 app.component("user-profile", {
   template: "#user-profile",
   data: () => ({
-    user: null,
+    user: {
+      id: null,
+      name: '',
+      email: '',
+    },
     noUserFound: false,
   }),
   created: function () {

@@ -43,4 +43,5 @@ object UserController {
         val userData = mapper.readValue<User>(ctx.body())
         userDao.update(id = ctx.pathParam("user-id").toInt() , user = userData)
     }
+
 }

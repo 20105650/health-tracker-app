@@ -1,7 +1,11 @@
 package ie.setu.domain.repository
 
+import ie.setu.domain.Activity
 import ie.setu.domain.Bmi
+import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Bmis
+import ie.setu.domain.db.Users
+import ie.setu.utils.mapToActivity
 import ie.setu.utils.mapToBmi
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -9,20 +13,44 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class BmiDAO {
 
+    //Get all the bmis in the database regardless of user id
+    fun getAll(): ArrayList<Bmi> {
+        val bmisList: ArrayList<Bmi> = arrayListOf()
+        transaction {
+            Bmis.selectAll().map {
+                bmisList.add(mapToBmi(it)) }
+        }
+        return bmisList
+    }
+
+    //Find a specific bmi by bmi id
+    fun findByBmiId(id: Int): Bmi?{
+        return transaction {
+            Bmis
+                .select() { Bmis.id eq id}
+                .map{ mapToBmi(it) }
+                .firstOrNull()
+        }
+    }
+
     //Save a Bmi to the database
     fun save(bmi: Bmi): Int {
-        val bmivalue = bmi.weight / ((bmi.height/100) * (bmi.height/100))
+        val bmivaluee = bmi.weight / ((bmi.height/100) * (bmi.height/100))
+        val bmivalue = String.format("%.2f", bmivaluee).toDouble()
         var bmires :String
         if(bmivalue < 18.5) {
             bmires = "underweight"
         }
-        if (bmivalue > 18.5 && bmivalue < 23){
+        else if (bmivalue >= 18.5 && bmivalue < 23){
             bmires = "Healthy"
         }
-        else {
+        else if (bmivalue >= 23 && bmivalue < 27.5){
             bmires = "Overweight"
         }
-        val currentDateTime: org.joda.time.DateTime = org.joda.time.DateTime.now()
+        else {
+            bmires = "Obese"
+        }
+//val currentDateTime: org.joda.time.DateTime = org.joda.time.DateTime.now()
         return transaction {
             Bmis.insert {
                 it[weight] = bmi.weight
@@ -31,8 +59,8 @@ class BmiDAO {
                 it[community] = bmi.community
                 it[bmival] = bmivalue
                 it[bmiresult] = bmires
-                it[userId] = bmi.userId
-                it[createdat] = currentDateTime
+                it[userId] = bmi.user_id
+                it[createdat] = bmi.createdat
             }
         } get Bmis.id
     }
@@ -44,5 +72,8 @@ class BmiDAO {
                 .select { Bmis.userId eq userId}
                 .map { mapToBmi(it) }
         }
+    }
+    fun delete(id: Int){
+        return transaction { Bmis.deleteWhere { Bmis.id eq id } }
     }
 }

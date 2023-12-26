@@ -32,4 +32,19 @@ object BmiController {
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         ctx.json(mapper.writeValueAsString( bmiDAO.findByUserId(ctx.pathParam("user-id").toInt()) ))
     }
+    fun getBmisByUserId(ctx: Context) {
+        if (BmiController.userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
+            val bmis = BmiController.bmiDAO.findByUserId(ctx.pathParam("user-id").toInt())
+            if (bmis.isNotEmpty()) {
+                //mapper handles the deserialization of Joda date into a String.
+                val mapper = jacksonObjectMapper()
+                    .registerModule(JodaModule())
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                ctx.json(mapper.writeValueAsString(bmis))
+            }
+        }
+    }
+    fun deleteBmiById(ctx: Context) {
+        BmiController.bmiDAO.delete(ctx.pathParam("bmi-id").toInt())
+    }
 }
