@@ -72,6 +72,7 @@ class JavalinConfig {
                     get(BmiController::getbmis)
                 }
             }
+
             path("/api/waterintake") {
                 post(WaterintakeController::calculateWaterintake)
                 path("{waterintake-id}") {
