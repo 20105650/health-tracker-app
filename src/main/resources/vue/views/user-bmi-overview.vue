@@ -75,6 +75,7 @@ app.component("user-bmi-overview", {
   template: "#user-bmi-overview",
   data: () => ({
     bmis: [],
+    users:[],
     formData: [],
     userId: null,
     hideForm: true,
@@ -89,6 +90,9 @@ app.component("user-bmi-overview", {
       axios.get(`/api/users/${this.userId}/bmis`)
           .then(res => this.bmis = res.data)
           .catch(() => alert("Error while fetching BMI"));
+      axios.get(`/api/users/${this.userId}`)
+          .then(res => this.users = res.data)
+          .catch(() => alert("Error while fetching user data"));
     },
     deleteBmi: function (bmi, index) {
       if (confirm('Are you sure you want to delete this BMI? This action cannot be undone.', 'Warning')) {
@@ -107,12 +111,30 @@ app.component("user-bmi-overview", {
     calculateBmi: function () {
       const url = `/api/bmi`;
       const userId = this.$javalin.pathParams["user-id"];
+      let hwold = null;
+      if (this.users.dob) {
+        const birthDate = new Date(this.users.dob);
+        const currentDate = new Date();
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+        // Adjust age based on the month and day of birth
+        if (
+            currentDate.getMonth() < birthDate.getMonth() ||
+            (currentDate.getMonth() === birthDate.getMonth() &&
+                currentDate.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+        hwold = age;
+      } else {
+        hwold = null;
+      }
       axios.post(url,
           {
             weight: this.formData.weight,
             height: this.formData.height,
             user_id:userId,
-            age:"25",
+            age:hwold,
             community:"Asian",
             createdat:new Date().toISOString()
 

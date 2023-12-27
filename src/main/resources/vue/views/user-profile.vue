@@ -42,6 +42,12 @@
             </div>
             <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email"/>
           </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-dob">DOB</span>
+            </div>
+            <input type="email" class="form-control" v-model="user.dob" name="dob" placeholder="DOB"/>
+          </div>
         </form>
       </div>
       <div class="card-footer text-center">
@@ -53,7 +59,7 @@
           <a :href="`/users/${user.id}/bmi`">Calculate BMI</a>
         </div>
         <div class="col-3"  v-if="user">
-          <a :href="`/users/${user.id}/bmi`">Sleep Monitoring</a>
+          <a :href="`/users/${user.id}/sleep-monitor`">Sleep Monitoring</a>
         </div>
         <div class="col-3"  v-if="user">
           <a :href="`/users/${user.id}/water-intakes`">Water Intake</a>
@@ -94,7 +100,8 @@ app.component("user-profile", {
       axios.patch(url,
           {
             name: this.user.name,
-            email: this.user.email
+            email: this.user.email,
+            dob: this.user.dob
           })
           .then(response =>
               this.user.push(response.data))

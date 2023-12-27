@@ -3,6 +3,7 @@ package ie.setu.config
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.BmiController
 import ie.setu.controllers.UserController
+import ie.setu.controllers.WaterintakeController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
@@ -45,6 +46,9 @@ class JavalinConfig {
                     path("bmis") {
                         get(BmiController::getBmisByUserId)
                     }
+                    path("waterintakes") {
+                        get(WaterintakeController::getWaterintakesByUserId)
+                    }
                 }
                 path("email/{user-email}") {
                     get(UserController::getUserByUserEmail)
@@ -68,6 +72,24 @@ class JavalinConfig {
                     get(BmiController::getbmis)
                 }
             }
+            path("/api/waterintake") {
+                post(WaterintakeController::calculateWaterintake)
+                path("{waterintake-id}") {
+                    delete(WaterintakeController::deleteWaterintakeById)
+                }
+                path("{user-id}") {
+                    get(WaterintakeController::getwaterintakes)
+                }
+            }
+            path("/api/sleepmonitor") {
+                post(WaterintakeController::calculateSleepmonitor)
+                path("{waterintake-id}") {
+                    delete(WaterintakeController::deleteSleepmonitorById)
+                }
+                path("{user-id}") {
+                    get(WaterintakeController::getsleepmonitor)
+                }
+            }
             // The @routeComponent that we added in layout.html earlier will be replaced
             // by the String inside the VueComponent. This means a call to / will load
             // the layout and display our <home-page> component.
@@ -78,6 +100,7 @@ class JavalinConfig {
             get("/users/{user-id}/bmi", VueComponent("<user-bmi-overview></user-bmi-overview>"))
             get("/activities", VueComponent("<activities-overview></activities-overview>"))
             get("/users/{user-id}/water-intakes", VueComponent("<water-intake></water-intake>"))
+            get("/users/{user-id}/sleep-monitor", VueComponent("<sleep-monitor></sleep-monitor>"))
         }
     }
     private fun getRemoteAssignedPort(): Int {

@@ -29,29 +29,47 @@
             </div>
             <input type="email" class="form-control" v-model="formData.email" name="email" placeholder="Email"/>
           </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-dob">Date of birth</span>
+            </div>
+            <input type="text" class="form-control" v-model="formData.dob" name="dob" placeholder="Date of birth"/>
+          </div>
         </form>
         <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">Add User
         </button>
       </div>
     </div>
     <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(user,index) in users" v-bind:key="index">
-        <div class="mr-auto p-2">
-          <span><a :href="`/users/${user.id}`"> {{ user.name }} ({{ user.email }})</a></span>
-        </div>
-        <div class="p2">
-          <a :href="`/users/${user.id}`">
-            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
+      <h3 class="col-6">Users Data </h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">EMAIL</th>
+          <th scope="col">DATE OF BIRTH</th>
+          <th scope="col">ACTION</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(user,index) in users" v-bind:key="index">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.dob }}</td>
+          <td>
+            <a :href="`/users/${user.id}`">
+              <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+            </a>
+            <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
+                    @click="deleteUser(user, index)">
+              <i class="fas fa-trash" aria-hidden="true"></i>
             </button>
-          </a>
-          <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteUser(user, index)">
-            <i class="fas fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </app-layout>
 </template>
@@ -91,7 +109,8 @@ app.component("user-overview", {
       axios.post(url,
           {
             name: this.formData.name,
-            email: this.formData.email
+            email: this.formData.email,
+            dob: this.formData.dob
           })
           .then(response => {
             this.users.push(response.data)
