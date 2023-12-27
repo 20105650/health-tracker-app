@@ -72,6 +72,7 @@ class JavalinConfig {
                     get(BmiController::getbmis)
                 }
             }
+
             path("/api/waterintake") {
                 post(WaterintakeController::calculateWaterintake)
                 path("{waterintake-id}") {
@@ -81,8 +82,6 @@ class JavalinConfig {
                     get(WaterintakeController::getwaterintakes)
                 }
             }
-
-
             // The @routeComponent that we added in layout.html earlier will be replaced
             // by the String inside the VueComponent. This means a call to / will load
             // the layout and display our <home-page> component.
