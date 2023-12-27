@@ -42,12 +42,6 @@
             </div>
             <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email"/>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-dob">DOB</span>
-            </div>
-            <input type="email" class="form-control" v-model="user.dob" name="dob" placeholder="DOB"/>
-          </div>
         </form>
       </div>
       <div class="card-footer text-center">
@@ -95,13 +89,11 @@ app.component("user-profile", {
     updateUser: function () {
       const userId = this.$javalin.pathParams["user-id"];
       const url = `/api/users/${userId}`
-      console.log(this.user.name);
-      console.log(this.user.email);
+
       axios.patch(url,
           {
             name: this.user.name,
-            email: this.user.email,
-            dob: this.user.dob
+            email: this.user.email
           })
           .then(response =>
               this.user.push(response.data))

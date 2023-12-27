@@ -29,12 +29,6 @@
             </div>
             <input type="email" class="form-control" v-model="formData.email" name="email" placeholder="Email"/>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-dob">Date of birth</span>
-            </div>
-            <input type="text" class="form-control" v-model="formData.dob" name="dob" placeholder="Date of birth"/>
-          </div>
         </form>
         <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">Add User
         </button>
@@ -47,7 +41,6 @@
         <tr>
           <th scope="col">NAME</th>
           <th scope="col">EMAIL</th>
-          <th scope="col">DATE OF BIRTH</th>
           <th scope="col">ACTION</th>
         </tr>
         </thead>
@@ -55,7 +48,6 @@
         <tr v-for="(user,index) in users" v-bind:key="index">
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.dob }}</td>
           <td>
             <a :href="`/users/${user.id}`">
               <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
@@ -109,8 +101,7 @@ app.component("user-overview", {
       axios.post(url,
           {
             name: this.formData.name,
-            email: this.formData.email,
-            dob: this.formData.dob
+            email: this.formData.email
           })
           .then(response => {
             this.users.push(response.data)

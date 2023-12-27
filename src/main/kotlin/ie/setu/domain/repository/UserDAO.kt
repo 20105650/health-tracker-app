@@ -41,7 +41,6 @@ class UserDAO {
             Users.update ({Users.id eq id}){
                 it[name] = user.name
                 it[email] = user.email
-                it[dob] = user.dob?.let { DateTime(it) }!!
             }
         }
     }
@@ -51,7 +50,6 @@ class UserDAO {
             Users.insert {
                 it[name] = user.name
                 it[email] = user.email
-                it[dob] = user.dob?.let { DateTime(it) }!!
             }
         }
     }

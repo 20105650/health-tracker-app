@@ -6,6 +6,7 @@ import ie.setu.domain.db.*
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.*
 import ie.setu.domain.repository.UserDAO
+import org.apache.http.client.utils.DateUtils.parseDate
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
@@ -23,7 +24,7 @@ val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
-    User(name = "Mary Contrary", email = "mary@contrary.com", id = 3),
+    User(name = "Mary Contrary", email = "mary@contrary.com",  id = 3),
     User(name = "Carol Singer", email = "carol@singer.com", id = 4)
 )
 
