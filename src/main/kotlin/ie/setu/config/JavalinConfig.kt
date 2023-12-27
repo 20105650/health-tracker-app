@@ -81,15 +81,7 @@ class JavalinConfig {
                     get(WaterintakeController::getwaterintakes)
                 }
             }
-            path("/api/sleepmonitor") {
-                post(WaterintakeController::calculateSleepmonitor)
-                path("{waterintake-id}") {
-                    delete(WaterintakeController::deleteSleepmonitorById)
-                }
-                path("{user-id}") {
-                    get(WaterintakeController::getsleepmonitor)
-                }
-            }
+
             // The @routeComponent that we added in layout.html earlier will be replaced
             // by the String inside the VueComponent. This means a call to / will load
             // the layout and display our <home-page> component.
@@ -100,7 +92,6 @@ class JavalinConfig {
             get("/users/{user-id}/bmi", VueComponent("<user-bmi-overview></user-bmi-overview>"))
             get("/activities", VueComponent("<activities-overview></activities-overview>"))
             get("/users/{user-id}/water-intakes", VueComponent("<water-intake></water-intake>"))
-            get("/users/{user-id}/sleep-monitor", VueComponent("<sleep-monitor></sleep-monitor>"))
         }
     }
     private fun getRemoteAssignedPort(): Int {
