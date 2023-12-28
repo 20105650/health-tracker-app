@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > Activities</title>
+  <title>Coverage Report > Waterintakes</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">ie.setu.domain.db</a>
 </div>
 
-<h1>Coverage Summary for Class: Activities (ie.setu.domain.db)</h1>
+<h1>Coverage Summary for Class: Waterintakes (ie.setu.domain.db)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Activities</td>
+  <td class="name">Waterintakes</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (7/7)
+    (0/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (7/7)
+    (0/7)
   </span>
 </td>
 </tr>
@@ -80,16 +80,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.jetbrains.exposed.sql.ReferenceOption
 &nbsp;import org.jetbrains.exposed.sql.Table
 &nbsp;
-&nbsp;// SRP - Responsibility is to manage one activity.
-&nbsp;//       Database wise, this is the table object.
+&nbsp;// SRP - Responsibility is to manage one BMI.
 &nbsp;
-<b class="fc">&nbsp;object Activities : Table(&quot;activities&quot;) {</b>
-<b class="fc">&nbsp;    val id = integer(&quot;id&quot;).autoIncrement().primaryKey()</b>
-<b class="fc">&nbsp;    val description = varchar(&quot;description&quot;, 100)</b>
-<b class="fc">&nbsp;    val duration = double(&quot;duration&quot;)</b>
-<b class="fc">&nbsp;    val calories = integer(&quot;calories&quot;)</b>
-<b class="fc">&nbsp;    val started = datetime(&quot;started&quot;)</b>
-<b class="fc">&nbsp;    val userId = integer(&quot;user_id&quot;).references(Users.id, onDelete = ReferenceOption.CASCADE)</b>
+<b class="nc">&nbsp;object Waterintakes : Table(&quot;waterintakes&quot;) {</b>
+<b class="nc">&nbsp;    val id = integer(&quot;id&quot;).autoIncrement().primaryKey()</b>
+<b class="nc">&nbsp;    val weight = double(&quot;weight&quot;)</b>
+<b class="nc">&nbsp;    val waterconsumed = double(&quot;waterconsumed&quot;)</b>
+<b class="nc">&nbsp;    val dailyrequired = double(&quot;dailyrequired&quot;)</b>
+<b class="nc">&nbsp;    val userId = integer(&quot;user_id&quot;).references(Users.id, onDelete = ReferenceOption.CASCADE)</b>
+<b class="nc">&nbsp;    val createdat =datetime(&quot;createdat&quot;)</b>
 &nbsp;}
 </code>
 </pre>

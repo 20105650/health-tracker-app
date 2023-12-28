@@ -44,7 +44,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/14)
+    (0/20)
   </span>
 </td>
 <td class="coverageStat">
@@ -52,7 +52,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/37)
+    (0/57)
   </span>
 </td>
 </tr>
@@ -82,7 +82,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/15)
+    (0/21)
   </span>
 </td>
 <td class="coverageStat">
@@ -90,7 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/38)
+    (0/58)
   </span>
 </td>
 </tr>
@@ -103,30 +103,36 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.config
 &nbsp;
-&nbsp;import ie.setu.controllers.UserController
 &nbsp;import ie.setu.controllers.ActivityController
 &nbsp;import ie.setu.controllers.BmiController
+&nbsp;import ie.setu.controllers.UserController
+&nbsp;import ie.setu.controllers.WaterintakeController
 &nbsp;import ie.setu.utils.jsonObjectMapper
 &nbsp;import io.javalin.Javalin
 &nbsp;import io.javalin.apibuilder.ApiBuilder.*
 &nbsp;import io.javalin.json.JavalinJackson
+&nbsp;import io.javalin.vue.VueComponent
+&nbsp;
+&nbsp;
 &nbsp;
 <b class="nc">&nbsp;class JavalinConfig {</b>
 &nbsp;
 &nbsp;    fun startJavalinService(): Javalin {
-<b class="nc">&nbsp;        val app = Javalin.create {</b>
-&nbsp;            //add this jsonMapper to serialise objects to json
+<b class="nc">&nbsp;        val app = Javalin.create{</b>
+&nbsp;
+&nbsp;            //added this jsonMapper for our integration tests - serialise objects to json
 <b class="nc">&nbsp;            it.jsonMapper(JavalinJackson(jsonObjectMapper()))</b>
-&nbsp;        }
-<b class="nc">&nbsp;            .apply{</b>
-<b class="nc">&nbsp;                exception(Exception::class.java) { e, ctx -&gt; e.printStackTrace() }</b>
-<b class="nc">&nbsp;                error(404) { ctx -&gt; ctx.json(&quot;404 - Not Found&quot;) }</b>
-<b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            .start(getRemoteAssignedPort())</b>
+<b class="nc">&nbsp;            it.staticFiles.enableWebjars()</b>
+<b class="nc">&nbsp;            it.vue.vueAppName = &quot;app&quot; // only required for Vue 3, is defined in layout.html</b>
+<b class="nc">&nbsp;        }.apply {</b>
+<b class="nc">&nbsp;            exception(Exception::class.java) { e, _ -&gt; e.printStackTrace() }</b>
+<b class="nc">&nbsp;            error(404) { ctx -&gt; ctx.json(&quot;404 : Not Found&quot;) }</b>
+<b class="nc">&nbsp;        }.start(getRemoteAssignedPort())</b>
 &nbsp;
 <b class="nc">&nbsp;        registerRoutes(app)</b>
 <b class="nc">&nbsp;        return app</b>
 &nbsp;    }
+&nbsp;
 &nbsp;
 &nbsp;    private fun registerRoutes(app: Javalin) {
 <b class="nc">&nbsp;        app.routes {</b>
@@ -139,6 +145,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    patch(UserController::updateUser)</b>
 <b class="nc">&nbsp;                    path(&quot;activities&quot;) {</b>
 <b class="nc">&nbsp;                        get(ActivityController::getActivitiesByUserId)</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    path(&quot;bmis&quot;) {</b>
+<b class="nc">&nbsp;                        get(BmiController::getBmisByUserId)</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    path(&quot;waterintakes&quot;) {</b>
+<b class="nc">&nbsp;                        get(WaterintakeController::getWaterintakesByUserId)</b>
 &nbsp;                    }
 &nbsp;                }
 <b class="nc">&nbsp;                path(&quot;email/{user-email}&quot;) {</b>
@@ -156,10 +168,34 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            }
 <b class="nc">&nbsp;            path(&quot;/api/bmi&quot;) {</b>
 <b class="nc">&nbsp;                post(BmiController::calculateBmi)</b>
+<b class="nc">&nbsp;                path(&quot;{bmi-id}&quot;) {</b>
+<b class="nc">&nbsp;                    delete(BmiController::deleteBmiById)</b>
+&nbsp;                }
 <b class="nc">&nbsp;                path(&quot;{user-id}&quot;) {</b>
 <b class="nc">&nbsp;                    get(BmiController::getbmis)</b>
 &nbsp;                }
 &nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            path(&quot;/api/waterintake&quot;) {</b>
+<b class="nc">&nbsp;                post(WaterintakeController::calculateWaterintake)</b>
+<b class="nc">&nbsp;                path(&quot;{waterintake-id}&quot;) {</b>
+<b class="nc">&nbsp;                    delete(WaterintakeController::deleteWaterintakeById)</b>
+&nbsp;                }
+<b class="nc">&nbsp;                path(&quot;{user-id}&quot;) {</b>
+<b class="nc">&nbsp;                    get(WaterintakeController::getwaterintakes)</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            
+&nbsp;            // The @routeComponent that we added in layout.html earlier will be replaced
+&nbsp;            // by the String inside the VueComponent. This means a call to / will load
+&nbsp;            // the layout and display our &lt;home-page&gt; component.
+<b class="nc">&nbsp;            get(&quot;/&quot;, VueComponent(&quot;&lt;home-page&gt;&lt;/home-page&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users&quot;, VueComponent(&quot;&lt;user-overview&gt;&lt;/user-overview&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users/{user-id}&quot;, VueComponent(&quot;&lt;user-profile&gt;&lt;/user-profile&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users/{user-id}/activities&quot;, VueComponent(&quot;&lt;user-activity-overview&gt;&lt;/user-activity-overview&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users/{user-id}/bmi&quot;, VueComponent(&quot;&lt;user-bmi-overview&gt;&lt;/user-bmi-overview&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/activities&quot;, VueComponent(&quot;&lt;activities-overview&gt;&lt;/activities-overview&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users/{user-id}/water-intakes&quot;, VueComponent(&quot;&lt;water-intake&gt;&lt;/water-intake&gt;&quot;))</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    private fun getRemoteAssignedPort(): Int {
@@ -192,7 +228,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-11-16 12:46</div>
+    <div style="float:right;">generated on 2023-12-28 12:02</div>
 </div>
 </body>
 </html>

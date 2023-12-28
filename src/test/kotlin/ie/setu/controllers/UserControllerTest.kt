@@ -15,6 +15,18 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import ie.setu.helpers.TestUtilities.retrieveUserByEmail
+import ie.setu.helpers.TestUtilities.retrieveUserById
+import ie.setu.helpers.TestUtilities.addUser
+import ie.setu.helpers.TestUtilities.deleteUser
+import ie.setu.helpers.TestUtilities.updateUser
+import ie.setu.helpers.TestUtilities.retrieveActivitiesByUserId
+import ie.setu.helpers.TestUtilities.retrieveActivityByActivityId
+import ie.setu.helpers.TestUtilities.retrieveAllActivities
+import ie.setu.helpers.TestUtilities.addActivity
+import ie.setu.helpers.TestUtilities.updateActivity
+import ie.setu.helpers.TestUtilities.deleteActivitiesByUserId
+import ie.setu.helpers.TestUtilities.deleteActivityByActivityId
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserControllerTest {
@@ -40,7 +52,7 @@ class UserControllerTest {
         fun `get user by id when user does not exist returns 404 response`() {
 
             //Arrange & Act - attempt to retrieve the non-existent user from the database
-            val retrieveResponse = retrieveUserById(Integer.MIN_VALUE)
+            val retrieveResponse = retrieveUserById(-1)
 
             // Assert -  verify return code
             assertEquals(404, retrieveResponse.status)
@@ -117,17 +129,17 @@ class UserControllerTest {
         fun `updating a user when it exists, returns a 204 response`() {
 
             //Arrange - add the user that we plan to do an update on
-            val addedResponse = addUser(validName, validEmail)
+            val addedResponse = addUser(validNamee, validEmaill)
             val addedUser : User = jsonToObject(addedResponse.body.toString())
 
             //Act & Assert - update the email and name of the retrieved user and assert 204 is returned
-            assertEquals(204, updateUser(addedUser.id, updatedName, updatedEmail).status)
+            assertEquals(204, updateUser(addedUser.id, updatedNamee, updatedEmaill).status)
 
             //Act & Assert - retrieve updated user and assert details are correct
             val updatedUserResponse = retrieveUserById(addedUser.id)
             val updatedUser : User = jsonToObject(updatedUserResponse.body.toString())
-            assertEquals(updatedName, updatedUser.name)
-            assertEquals(updatedEmail, updatedUser.email)
+            assertEquals(updatedNamee, updatedUser.name)
+            assertEquals(updatedEmaill, updatedUser.email)
 
             //After - restore the db to previous state by deleting the added user
             deleteUser(addedUser.id)
@@ -406,92 +418,4 @@ class UserControllerTest {
         }
     }
 
-    //--------------------------------------------------------------------------------------
-    // HELPER METHODS - could move them into a test utility class when submitting assignment
-    //--------------------------------------------------------------------------------------
-
-    //helper function to add a test user to the database
-    private fun addUser (name: String, email: String): HttpResponse<JsonNode> {
-        return Unirest.post(origin + "/api/users")
-            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
-            .asJson()
-    }
-
-    //helper function to delete a test user from the database
-    private fun deleteUser (id: Int): HttpResponse<String> {
-        return Unirest.delete(origin + "/api/users/$id").asString()
-    }
-
-    //helper function to retrieve a test user from the database by email
-    private fun retrieveUserByEmail(email : String) : HttpResponse<String> {
-        return Unirest.get(origin + "/api/users/email/${email}").asString()
-    }
-
-    //helper function to retrieve a test user from the database by id
-    private fun retrieveUserById(id: Int) : HttpResponse<String> {
-        return Unirest.get(origin + "/api/users/${id}").asString()
-    }
-
-    //helper function to add a test user to the database
-    private fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
-        return Unirest.patch(origin + "/api/users/$id")
-            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
-            .asJson()
-    }
-
-    //helper function to retrieve all activities
-    private fun retrieveAllActivities(): HttpResponse<JsonNode> {
-        return Unirest.get(origin + "/api/activities").asJson()
-    }
-
-    //helper function to retrieve activities by user id
-    private fun retrieveActivitiesByUserId(id: Int): HttpResponse<JsonNode> {
-        return Unirest.get(origin + "/api/users/${id}/activities").asJson()
-    }
-
-    //helper function to retrieve activity by activity id
-    private fun retrieveActivityByActivityId(id: Int): HttpResponse<JsonNode> {
-        return Unirest.get(origin + "/api/activities/${id}").asJson()
-    }
-
-    //helper function to delete an activity by activity id
-    private fun deleteActivityByActivityId(id: Int): HttpResponse<String> {
-        return Unirest.delete(origin + "/api/activities/$id").asString()
-    }
-
-    //helper function to delete an activity by activity id
-    private fun deleteActivitiesByUserId(id: Int): HttpResponse<String> {
-        return Unirest.delete(origin + "/api/users/$id/activities").asString()
-    }
-
-    //helper function to add a test user to the database
-    private fun updateActivity(id: Int, description: String, duration: Double, calories: Int,
-                               started: DateTime, userId: Int): HttpResponse<JsonNode> {
-        return Unirest.patch(origin + "/api/activities/$id")
-            .body("""
-                {
-                  "description":"$description",
-                  "duration":$duration,
-                  "calories":$calories,
-                  "started":"$started",
-                  "userId":$userId
-                }
-            """.trimIndent()).asJson()
-    }
-
-    //helper function to add an activity
-    private fun addActivity(description: String, duration: Double, calories: Int,
-                            started: DateTime, userId: Int): HttpResponse<JsonNode> {
-        return Unirest.post(origin + "/api/activities")
-            .body("""
-                {
-                   "description":"$description",
-                   "duration":$duration,
-                   "calories":$calories,
-                   "started":"$started",
-                   "userId":$userId
-                }
-            """.trimIndent())
-            .asJson()
-    }
 }

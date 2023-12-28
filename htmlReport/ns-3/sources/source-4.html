@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > BmiController</title>
+  <title>Coverage Report > WaterintakeController</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">ie.setu.controllers</a>
 </div>
 
-<h1>Coverage Summary for Class: BmiController (ie.setu.controllers)</h1>
+<h1>Coverage Summary for Class: WaterintakeController (ie.setu.controllers)</h1>
 
 <table class="coverageStats">
 
@@ -38,7 +38,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">BmiController</td>
+  <td class="name">WaterintakeController</td>
 <td class="coverageStat">
   <span class="percent">
     20%
@@ -57,7 +57,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">BmiController$calculateBmi$$inlined$readValue$1</td>
+    <td class="name">WaterintakeController$calculateWaterintake$$inlined$readValue$1</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -103,7 +103,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.controllers
 &nbsp;
-&nbsp;import ie.setu.domain.repository.BmiDAO
 &nbsp;import io.javalin.http.Context
 &nbsp;import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 &nbsp;import com.fasterxml.jackson.module.kotlin.readValue
@@ -112,43 +111,44 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import ie.setu.utils.jsonToObject
 &nbsp;import com.fasterxml.jackson.databind.SerializationFeature
 &nbsp;import com.fasterxml.jackson.datatype.joda.JodaModule
-&nbsp;import ie.setu.domain.Activity
+&nbsp;import ie.setu.domain.Waterintake
+&nbsp;import ie.setu.domain.repository.WaterintakeDAO
 &nbsp;
-&nbsp;object BmiController {
+&nbsp;object WaterintakeController {
 &nbsp;
-<b class="fc">&nbsp;    private val bmiDAO = BmiDAO()</b>
+<b class="fc">&nbsp;    private val waterintakeDao = WaterintakeDAO()</b>
 <b class="fc">&nbsp;    private val userDao = UserDAO()</b>
 &nbsp;
-&nbsp;    fun calculateBmi(ctx: Context) {
+&nbsp;    fun calculateWaterintake(ctx: Context) {
 &nbsp;        //mapper handles the serialisation of Joda date into a String.
 <b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
 <b class="nc">&nbsp;            .registerModule(JodaModule())</b>
 <b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        val bmi = mapper.readValue&lt;Bmi&gt;(ctx.body())</b>
-<b class="nc">&nbsp;        bmiDAO.save(bmi)</b>
-<b class="nc">&nbsp;        ctx.json(bmi)</b>
+<b class="nc">&nbsp;        val waterintake = mapper.readValue&lt;Waterintake&gt;(ctx.body())</b>
+<b class="nc">&nbsp;        waterintakeDao.save(waterintake)</b>
+<b class="nc">&nbsp;        ctx.json(waterintake)</b>
 &nbsp;    }
-&nbsp;    fun getbmis(ctx: Context) {
+&nbsp;    fun getwaterintakes(ctx: Context) {
 &nbsp;        //mapper handles the deserialization of Joda date into a String.
 <b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
 <b class="nc">&nbsp;            .registerModule(JodaModule())</b>
 <b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        ctx.json(mapper.writeValueAsString( bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt()) ))</b>
+<b class="nc">&nbsp;        ctx.json(mapper.writeValueAsString( waterintakeDao.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt()) ))</b>
 &nbsp;    }
-&nbsp;    fun getBmisByUserId(ctx: Context) {
-<b class="nc">&nbsp;        if (BmiController.userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
-<b class="nc">&nbsp;            val bmis = BmiController.bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
-<b class="nc">&nbsp;            if (bmis.isNotEmpty()) {</b>
+&nbsp;    fun getWaterintakesByUserId(ctx: Context) {
+<b class="nc">&nbsp;        if (WaterintakeController.userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
+<b class="nc">&nbsp;            val waterintakes = WaterintakeController.waterintakeDao.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
+<b class="nc">&nbsp;            if (waterintakes.isNotEmpty()) {</b>
 &nbsp;                //mapper handles the deserialization of Joda date into a String.
 <b class="nc">&nbsp;                val mapper = jacksonObjectMapper()</b>
 <b class="nc">&nbsp;                    .registerModule(JodaModule())</b>
 <b class="nc">&nbsp;                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;                ctx.json(mapper.writeValueAsString(bmis))</b>
+<b class="nc">&nbsp;                ctx.json(mapper.writeValueAsString(waterintakes))</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
-&nbsp;    fun deleteBmiById(ctx: Context) {
-<b class="nc">&nbsp;        BmiController.bmiDAO.delete(ctx.pathParam(&quot;bmi-id&quot;).toInt())</b>
+&nbsp;    fun deleteWaterintakeById(ctx: Context) {
+<b class="nc">&nbsp;        WaterintakeController.waterintakeDao.delete(ctx.pathParam(&quot;waterintake-id&quot;).toInt())</b>
 &nbsp;    }
 &nbsp;}
 </code>

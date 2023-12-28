@@ -13,8 +13,12 @@ import org.joda.time.DateTime
 val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
 val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
+val validNamee = "Test User 2"
+val validEmaill = "testuser2@test.com"
 val updatedName = "Updated Name"
 val updatedEmail = "Updated Email"
+val updatedNamee = "Updated Namee"
+val updatedEmaill = "Updated Emaill"
 
 val updatedDescription = "Updated Description"
 val updatedDuration = 30.0
@@ -37,6 +41,12 @@ val activities = arrayListOf<Activity>(
 val bmis = arrayListOf<Bmi>(
     Bmi(id = 1, weight =43.50 , height =165.50, age = 25, community="Asian", bmival=15.88,bmiresult="underweight",createdat = DateTime.now(), user_id = 1))
 
+val waterintakes = arrayListOf<Waterintake>(
+    Waterintake(id=1,weight = 100.00, waterconsumed = 30.00 ,dailyrequired =66.67,createdat = DateTime.now(), user_id = 1),
+    Waterintake(id=2,weight = 110.00, waterconsumed = 20.00 ,dailyrequired =73.30,createdat = DateTime.now(), user_id = 2),
+    Waterintake(id=3,weight = 120.00, waterconsumed = 40.00 ,dailyrequired =80.67,createdat = DateTime.now(), user_id = 3),
+
+    )
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()
@@ -59,4 +69,13 @@ fun populateBmiTable(): BmiDAO {
     val bmiDAO = BmiDAO()
     bmiDAO.save(bmis[0])
     return bmiDAO
+}
+
+fun populateWaterintakeTable(): WaterintakeDAO {
+    SchemaUtils.create(Waterintakes)
+    val waterintakeDAO = WaterintakeDAO()
+    waterintakeDAO.save(waterintakes[0])
+    waterintakeDAO.save(waterintakes[1])
+    waterintakeDAO.save(waterintakes[2])
+    return waterintakeDAO
 }
