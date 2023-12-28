@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > Activities</title>
+  <title>Coverage Report > JwtProvider</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">ie.setu.domain.db</a>
+    <a href="../index.html">ie.setu.utils</a>
 </div>
 
-<h1>Coverage Summary for Class: Activities (ie.setu.domain.db)</h1>
+<h1>Coverage Summary for Class: JwtProvider (ie.setu.utils)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Activities</td>
+  <td class="name">JwtProvider</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (7/7)
+    (0/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (7/7)
+    (0/8)
   </span>
 </td>
 </tr>
@@ -75,21 +75,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.domain.db
+<code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.utils
 &nbsp;
-&nbsp;import org.jetbrains.exposed.sql.ReferenceOption
-&nbsp;import org.jetbrains.exposed.sql.Table
+&nbsp;import com.auth0.jwt.JWT
+&nbsp;import com.auth0.jwt.interfaces.DecodedJWT
+&nbsp;import ie.setu.domain.User
+&nbsp;import io.javalin.security.RouteRole
+&nbsp;import java.util.*
 &nbsp;
-&nbsp;// SRP - Responsibility is to manage one activity.
-&nbsp;//       Database wise, this is the table object.
+<b class="nc">&nbsp;class JwtProvider {</b>
 &nbsp;
-<b class="fc">&nbsp;object Activities : Table(&quot;activities&quot;) {</b>
-<b class="fc">&nbsp;    val id = integer(&quot;id&quot;).autoIncrement().primaryKey()</b>
-<b class="fc">&nbsp;    val description = varchar(&quot;description&quot;, 100)</b>
-<b class="fc">&nbsp;    val duration = double(&quot;duration&quot;)</b>
-<b class="fc">&nbsp;    val calories = integer(&quot;calories&quot;)</b>
-<b class="fc">&nbsp;    val started = datetime(&quot;started&quot;)</b>
-<b class="fc">&nbsp;    val userId = integer(&quot;user_id&quot;).references(Users.id, onDelete = ReferenceOption.CASCADE)</b>
+<b class="nc">&nbsp;    fun decodeJWT(token: String): DecodedJWT = JWT.require(Cipher.algorithm).build().verify(token)</b>
+&nbsp;
+&nbsp;    fun createJWT(user: User, role: RouteRole): String? =
+<b class="nc">&nbsp;        JWT.create()</b>
+<b class="nc">&nbsp;            .withIssuedAt(Date())</b>
+<b class="nc">&nbsp;            .withSubject(user.email)</b>
+<b class="nc">&nbsp;            .withClaim(&quot;role&quot;, role.toString())</b>
+<b class="nc">&nbsp;            .withExpiresAt(Date(System.currentTimeMillis() + 1 * 24 * 60 * 60 * 1000))</b>
+<b class="nc">&nbsp;            .sign(Cipher.algorithm)</b>
 &nbsp;}
 </code>
 </pre>

@@ -41,75 +41,43 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">ActivityController</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    87.5%
   </span>
   <span class="absValue">
-    (0/8)
+    (7/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    61.1%
   </span>
   <span class="absValue">
-    (0/44)
+    (22/36)
   </span>
 </td>
 </tr>
   <tr>
     <td class="name">ActivityController$addActivity$$inlined$readValue$1</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
   </tr>
   <tr>
     <td class="name">ActivityController$updateActivity$$inlined$jsonToObject$1</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    0%
-  </span>
-  <span class="absValue">
-    (0/1)
-  </span>
-</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    87.5%
   </span>
   <span class="absValue">
-    (0/10)
+    (7/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    61.1%
   </span>
   <span class="absValue">
-    (0/46)
+    (22/36)
   </span>
 </td>
 </tr>
@@ -134,19 +102,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;object ActivityController {
 &nbsp;
-<b class="nc">&nbsp;    private val activityDAO = ActivityDAO()</b>
-<b class="nc">&nbsp;    private val userDao = UserDAO()</b>
+<b class="fc">&nbsp;    private val activityDAO = ActivityDAO()</b>
+<b class="fc">&nbsp;    private val userDao = UserDAO()</b>
 &nbsp;
 &nbsp;    fun getAllActivities(ctx: Context) {
 &nbsp;        //mapper handles the deserialization of Joda date into a String.
-<b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))</b>
+<b class="fc">&nbsp;        val mapper = jacksonObjectMapper()</b>
+<b class="fc">&nbsp;            .registerModule(JodaModule())</b>
+<b class="fc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
+<b class="fc">&nbsp;        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    fun getActivitiesByUserId(ctx: Context) {
-<b class="nc">&nbsp;        if (userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
+<b class="fc">&nbsp;        if (userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
 <b class="nc">&nbsp;            val activities = activityDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
 <b class="nc">&nbsp;            if (activities.isNotEmpty()) {</b>
 &nbsp;                //mapper handles the deserialization of Joda date into a String.
@@ -160,28 +128,28 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    fun addActivity(ctx: Context) {
 &nbsp;        //mapper handles the serialisation of Joda date into a String.
-<b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        val activity = mapper.readValue&lt;Activity&gt;(ctx.body())</b>
-<b class="nc">&nbsp;        activityDAO.save(activity)</b>
+<b class="fc">&nbsp;        val mapper = jacksonObjectMapper()</b>
+<b class="fc">&nbsp;            .registerModule(JodaModule())</b>
+<b class="fc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
+<b class="fc">&nbsp;        val activity = mapper.readValue&lt;Activity&gt;(ctx.body())</b>
+<b class="fc">&nbsp;        activityDAO.save(activity)</b>
 <b class="nc">&nbsp;        ctx.json(activity)</b>
 &nbsp;    }
 &nbsp;    fun getActivitiesByActivityId(ctx: Context) {
-<b class="nc">&nbsp;        val activity = activityDAO.findByActivityId((ctx.pathParam(&quot;activity-id&quot;).toInt()))</b>
-<b class="nc">&nbsp;        if (activity != null){</b>
+<b class="fc">&nbsp;        val activity = activityDAO.findByActivityId((ctx.pathParam(&quot;activity-id&quot;).toInt()))</b>
+<b class="fc">&nbsp;        if (activity != null){</b>
 <b class="nc">&nbsp;            ctx.json(activity)</b>
 <b class="nc">&nbsp;            ctx.status(200)</b>
 &nbsp;        }
 &nbsp;        else{
-<b class="nc">&nbsp;            ctx.status(404)</b>
+<b class="fc">&nbsp;            ctx.status(404)</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    fun deleteActivityByActivityId(ctx: Context){
-<b class="nc">&nbsp;        if (activityDAO.deleteByActivityId(ctx.pathParam(&quot;activity-id&quot;).toInt()) != 0)</b>
+<b class="fc">&nbsp;        if (activityDAO.deleteByActivityId(ctx.pathParam(&quot;activity-id&quot;).toInt()) != 0)</b>
 <b class="nc">&nbsp;            ctx.status(204)</b>
 &nbsp;        else
-<b class="nc">&nbsp;            ctx.status(404)</b>
+<b class="fc">&nbsp;            ctx.status(404)</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    fun deleteActivityByUserId(ctx: Context){
@@ -192,13 +160,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    fun updateActivity(ctx: Context){
-<b class="nc">&nbsp;        val activity : Activity = jsonToObject(ctx.body())</b>
-<b class="nc">&nbsp;        if (activityDAO.updateByActivityId(</b>
-<b class="nc">&nbsp;                activityId = ctx.pathParam(&quot;activity-id&quot;).toInt(),</b>
-<b class="nc">&nbsp;                activityToUpdate = activity) != 0)</b>
+<b class="fc">&nbsp;        val activity : Activity = jsonToObject(ctx.body())</b>
+<b class="fc">&nbsp;        if (activityDAO.updateByActivityId(</b>
+<b class="fc">&nbsp;                activityId = ctx.pathParam(&quot;activity-id&quot;).toInt(),</b>
+<b class="fc">&nbsp;                activityToUpdate = activity) != 0)</b>
 <b class="nc">&nbsp;            ctx.status(204)</b>
 &nbsp;        else
-<b class="nc">&nbsp;            ctx.status(404)</b>
+<b class="fc">&nbsp;            ctx.status(404)</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -224,7 +192,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-11-16 12:46</div>
+    <div style="float:right;">generated on 2023-12-28 12:02</div>
 </div>
 </body>
 </html>

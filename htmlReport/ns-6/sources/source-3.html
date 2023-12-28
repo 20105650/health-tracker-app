@@ -280,50 +280,51 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import ie.setu.utils.mapToUser
 &nbsp;import org.jetbrains.exposed.sql.*
 &nbsp;import org.jetbrains.exposed.sql.Database
+&nbsp;import org.joda.time.DateTime
+<b class="fc">&nbsp;</b>
+&nbsp;class UserDAO {
 &nbsp;
-<b class="fc">&nbsp;class UserDAO {</b>
-&nbsp;
-&nbsp;    fun getAll(): ArrayList&lt;User&gt; {
+<b class="fc">&nbsp;    fun getAll(): ArrayList&lt;User&gt; {</b>
 <b class="fc">&nbsp;        val userList: ArrayList&lt;User&gt; = arrayListOf()</b>
 <b class="fc">&nbsp;        transaction {</b>
 <b class="fc">&nbsp;            Users.selectAll().map {</b>
-<b class="fc">&nbsp;                userList.add(mapToUser(it)) }</b>
-&nbsp;        }
-<b class="fc">&nbsp;        return userList</b>
+&nbsp;                userList.add(mapToUser(it)) }
+<b class="fc">&nbsp;        }</b>
+&nbsp;        return userList
 &nbsp;    }
 &nbsp;
 &nbsp;
-&nbsp;    fun findById(id: Int): User?{
+<b class="fc">&nbsp;    fun findById(id: Int): User?{</b>
 <b class="fc">&nbsp;        return transaction {</b>
-<b class="fc">&nbsp;            Users.select(){ Users.id eq id }.map { mapToUser(it) }.firstOrNull()</b>
+&nbsp;            Users.select(){ Users.id eq id }.map { mapToUser(it) }.firstOrNull()
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    fun findByEmail(email: String): User? {
+<b class="fc">&nbsp;    fun findByEmail(email: String): User? {</b>
 <b class="fc">&nbsp;        return transaction {</b>
-<b class="fc">&nbsp;            Users.select() { Users.email eq email }.map { mapToUser(it) }.firstOrNull()</b>
+&nbsp;            Users.select() { Users.email eq email }.map { mapToUser(it) }.firstOrNull()
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    fun delete(id: Int){
-<b class="fc">&nbsp;        return transaction { Users.deleteWhere { Users.id eq id } }</b>
+<b class="fc">&nbsp;    fun delete(id: Int):Int{</b>
+&nbsp;        return transaction { Users.deleteWhere { Users.id eq id } }
 &nbsp;    }
 &nbsp;
-&nbsp;    fun update(id: Int, user: User){
-<b class="fc">&nbsp;        transaction {</b>
+<b class="fc">&nbsp;    fun update(id: Int, user: User): Int{</b>
+<b class="fc">&nbsp;        return transaction {</b>
 <b class="fc">&nbsp;            Users.update ({Users.id eq id}){</b>
 <b class="fc">&nbsp;                it[name] = user.name</b>
-<b class="fc">&nbsp;                it[email] = user.email</b>
+&nbsp;                it[email] = user.email
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    fun save(user: User){
-<b class="fc">&nbsp;        transaction {</b>
+<b class="fc">&nbsp;    fun save(user: User) : Int?{</b>
+<b class="fc">&nbsp;        return transaction {</b>
 <b class="fc">&nbsp;            Users.insert {</b>
 <b class="fc">&nbsp;                it[name] = user.name</b>
-<b class="fc">&nbsp;                it[email] = user.email</b>
-&nbsp;            }
+&nbsp;                it[email] = user.email
+&nbsp;            } get Users.id
 &nbsp;        }
 &nbsp;    }
 &nbsp;
@@ -353,7 +354,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-11-16 12:46</div>
+    <div style="float:right;">generated on 2023-12-28 12:02</div>
 </div>
 </body>
 </html>

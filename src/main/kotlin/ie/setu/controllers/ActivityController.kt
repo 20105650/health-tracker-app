@@ -17,10 +17,13 @@ object ActivityController {
 
     fun getAllActivities(ctx: Context) {
         //mapper handles the deserialization of Joda date into a String.
-        val mapper = jacksonObjectMapper()
-            .registerModule(JodaModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))
+        val activities = activityDAO.getAll()
+        if (activities.size != 0) {
+            ctx.status(200)
+        } else {
+            ctx.status(404)
+        }
+        ctx.json(activities)
     }
 
     fun getActivitiesByUserId(ctx: Context) {
@@ -32,18 +35,29 @@ object ActivityController {
                     .registerModule(JodaModule())
                     .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 ctx.json(mapper.writeValueAsString(activities))
+                ctx.status(200)
             }
+            else{
+                ctx.status(404)
+            }
+        }
+        else {
+            ctx.status(404)
         }
     }
 
     fun addActivity(ctx: Context) {
         //mapper handles the serialisation of Joda date into a String.
-        val mapper = jacksonObjectMapper()
-            .registerModule(JodaModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        val activity = mapper.readValue<Activity>(ctx.body())
-        activityDAO.save(activity)
-        ctx.json(activity)
+        val activity: Activity = jsonToObject(ctx.body())
+        val userId = userDao.findById(activity.userId)
+        if (userId != null) {
+            val activityId = activityDAO.save(activity)
+            activity.id = activityId
+            ctx.json(activity)
+            ctx.status(201)
+        } else {
+            ctx.status(404)
+        }
     }
     fun getActivitiesByActivityId(ctx: Context) {
         val activity = activityDAO.findByActivityId((ctx.pathParam("activity-id").toInt()))
