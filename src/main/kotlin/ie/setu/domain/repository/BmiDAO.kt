@@ -55,8 +55,6 @@ class BmiDAO {
             Bmis.insert {
                 it[weight] = bmi.weight
                 it[height] = bmi.height
-                it[age] = bmi.age
-                it[community] = bmi.community
                 it[bmival] = bmivalue
                 it[bmiresult] = bmires
                 it[userId] = bmi.user_id

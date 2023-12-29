@@ -34,12 +34,13 @@ val users = arrayListOf<User>(
 
 
 val activities = arrayListOf<Activity>(
-    Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), userId = 1),
-    Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), userId = 1),
-    Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
+    Activity(id = 1, activity = "Running",weight=55.00, duration = 45.00, type="Unicycling",calories = 216.5625, createdat = DateTime.now(), user_id = 1),
+    Activity(id = 2, activity = "Hopping",weight=55.00, duration = 45.00, type="Unicycling",calories = 216.5625, createdat = DateTime.now(), user_id = 2),
+    Activity(id = 3, activity = "Walking",weight=55.00, duration = 45.00, type="Unicycling",calories = 216.5625, createdat = DateTime.now(), user_id = 3)
 )
 val bmis = arrayListOf<Bmi>(
-    Bmi(id = 1, weight =43.50 , height =165.50, age = 25, community="Asian", bmival=15.88,bmiresult="underweight",createdat = DateTime.now(), user_id = 1))
+    Bmi(id = 1, weight =43.50 , height =165.50, bmival=15.88,bmiresult="underweight",createdat = DateTime.now(), user_id = 1)
+)
 
 val waterintakes = arrayListOf<Waterintake>(
     Waterintake(id=1,weight = 100.00, waterconsumed = 30.00 ,dailyrequired =66.67,createdat = DateTime.now(), user_id = 1),
@@ -47,6 +48,14 @@ val waterintakes = arrayListOf<Waterintake>(
     Waterintake(id=3,weight = 120.00, waterconsumed = 40.00 ,dailyrequired =80.67,createdat = DateTime.now(), user_id = 3),
 
     )
+
+val goals = arrayListOf<Goal>(
+    Goal(id=1, goal_category="bmi", description="test goal", user_id=1, createdat=DateTime.now()),
+    Goal(id=2, goal_category="bmi", description="test goal", user_id=2, createdat=DateTime.now()),
+    Goal(id=3, goal_category="bmi", description="test goal", user_id=3, createdat=DateTime.now())
+
+    )
+
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()
@@ -78,4 +87,12 @@ fun populateWaterintakeTable(): WaterintakeDAO {
     waterintakeDAO.save(waterintakes[1])
     waterintakeDAO.save(waterintakes[2])
     return waterintakeDAO
+}
+fun populateGoalTable(): GoalDAO {
+    SchemaUtils.create(Goals)
+    val goalDAO = GoalDAO()
+    goalDAO.save(goals[0])
+    goalDAO.save(goals[1])
+    goalDAO.save(goals[2])
+    return goalDAO
 }

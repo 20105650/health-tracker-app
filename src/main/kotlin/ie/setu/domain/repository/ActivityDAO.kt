@@ -32,22 +32,33 @@ class ActivityDAO {
     fun findByUserId(userId: Int): List<Activity>{
         return transaction {
             Activities
-                .select {Activities.userId eq userId}
+                .select {Activities.user_id eq userId}
                 .map {mapToActivity(it)}
         }
     }
 
     //Save an activity to the database
-    fun save(activity: Activity): Int {
+    fun save(excercise: Activity): Int {
         return transaction {
+            val typeMet = excercise.type.split('@')
+           // if(typeMet) {
+            val typ = typeMet.getOrElse(0) { "" }
+            val met = typeMet.getOrNull(1)?.toDoubleOrNull() ?: 0.0
+                // Convert the string to a Double or default to 0.0 if conversion fails
+
+                val calory = ((met * excercise.weight * 3.5) / 200) * excercise.duration
+           // }
             Activities.insert {
-                it[description] = activity.description
-                it[duration] = activity.duration
-                it[calories] = activity.calories
-                it[started] = activity.started
-                it[userId] = activity.userId
-            }
-        } get Activities.id
+
+                it[activity] = excercise.activity
+                it[duration] = excercise.duration
+                it[weight] = excercise.weight
+                it[type] = typ
+                it[calories] = calory
+                it[createdat] = excercise.createdat
+                it[user_id] = excercise.user_id
+            } get Activities.id
+        }
     }
 
     //Update an activity with specific id
@@ -55,11 +66,11 @@ class ActivityDAO {
         return transaction {
             Activities.update ({
                 Activities.id eq activityId}) {
-                it[description] = activityToUpdate.description
+                it[activity] = activityToUpdate.activity
                 it[duration] = activityToUpdate.duration
                 it[calories] = activityToUpdate.calories
-                it[started] = activityToUpdate.started
-                it[userId] = activityToUpdate.userId
+                it[createdat] = activityToUpdate.createdat
+                it[user_id] = activityToUpdate.user_id
             }
         }
     }
@@ -74,7 +85,7 @@ class ActivityDAO {
     //Delete activities of a specific userid
     fun deleteByUserId (userId: Int): Int{
         return transaction{
-            Activities.deleteWhere { Activities.userId eq userId }
+            Activities.deleteWhere { Activities.user_id eq userId }
         }
     }
 

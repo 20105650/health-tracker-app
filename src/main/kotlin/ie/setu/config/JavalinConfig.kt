@@ -4,6 +4,7 @@ import ie.setu.controllers.ActivityController
 import ie.setu.controllers.BmiController
 import ie.setu.controllers.UserController
 import ie.setu.controllers.WaterintakeController
+import ie.setu.controllers.GoalController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
@@ -45,6 +46,9 @@ class JavalinConfig {
                     }
                     path("bmis") {
                         get(BmiController::getBmisByUserId)
+                    }
+                    path("goals") {
+                        get(GoalController::getGoalsByUserId)
                     }
                     path("waterintakes") {
                         get(WaterintakeController::getWaterintakesByUserId)
@@ -93,6 +97,7 @@ class JavalinConfig {
             get("/users/{user-id}/bmi", VueComponent("<user-bmi-overview></user-bmi-overview>"))
             get("/activities", VueComponent("<activities-overview></activities-overview>"))
             get("/users/{user-id}/water-intakes", VueComponent("<water-intake></water-intake>"))
+            get("/users/{user-id}/goals", VueComponent("<goals-overview></goals-overview>"))
         }
     }
     private fun getRemoteAssignedPort(): Int {

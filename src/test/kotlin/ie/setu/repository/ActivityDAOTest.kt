@@ -136,8 +136,8 @@ class ActivityDAOTest {
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
-                val activity3updated = Activity(id = 3, description = "Cardio", duration = 42.0,
-                    calories = 220, started = DateTime.now(), userId = 2)
+                val activity3updated = Activity(id = 3, activity = "Cardio", duration = 42.0,
+                    calories = 220.00,weight =45.5, createdat = DateTime.now(),type ="unicycling", user_id = 2)
                 activityDAO.updateByActivityId(activity3updated.id, activity3updated)
                 assertEquals(activity3updated, activityDAO.findByActivityId(3))
             }
@@ -152,8 +152,8 @@ class ActivityDAOTest {
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
-                val activity4updated = Activity(id = 4, description = "Cardio", duration = 42.0,
-                    calories = 220, started = DateTime.now(), userId = 2)
+                val activity4updated = Activity(id = 4, activity = "Cardio", duration = 42.0,
+                    calories = 220.00, weight=48.5,type="unicycling",createdat = DateTime.now(), user_id = 2)
                 activityDAO.updateByActivityId(4, activity4updated)
                 assertEquals(null, activityDAO.findByActivityId(4))
                 assertEquals(3, activityDAO.getAll().size)

@@ -8,9 +8,11 @@ import org.jetbrains.exposed.sql.Table
 
 object Activities : Table("activities") {
     val id = integer("id").autoIncrement().primaryKey()
-    val description = varchar("description", 100)
+    val activity = varchar("activity", 100)
+    val weight = double("weight")
+    val type = varchar("type", 100)
     val duration = double("duration")
-    val calories = integer("calories")
-    val started = datetime("started")
-    val userId = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
+    val calories = double("calories")
+    val createdat = datetime("createdat")
+    val user_id = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }

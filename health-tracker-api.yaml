@@ -147,6 +147,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Bmi'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/BmiId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bmi'
+      responses:
+        200:
+          description: The BMI has been updated
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/BmiId'
+      responses:
+        200:
+          description: The Bmi is deleted
+  /api/waterintake:
+    post:
+      description: Add a waterintake for a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/waterintakereq'
+      responses:
+        200:
+          description: The waterintake has been created and saved
+  /api/waterintake/{user-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: List all the waterintake for a specific user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Waterintake'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/WaterintakeId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Waterintake'
+      responses:
+        200:
+          description: The Waterintake has been updated
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/WaterintakeId'
+      responses:
+        200:
+          description: The Waterintake is deleted
+  /api/goal:
+    post:
+      description: Add a goal  for a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/goalreq'
+      responses:
+        200:
+          description: The goal has been created and saved
+  /api/goal/{user-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UserIdPath'
+      responses:
+        200:
+          description: List all the goals for a specific user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/GoalId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+      responses:
+        200:
+          description: The Goal has been updated
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/GoalId'
+      responses:
+        200:
+          description: The goal is deleted
 
 components:
   parameters:
@@ -174,6 +269,30 @@ components:
       schema:
         type: integer
         example: 24
+    BmiId:
+      in: path
+      name: bmi-id
+      description: Bmi id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 24
+    WaterintakeId:
+      in: path
+      name: waterintake-id
+      description: waterintake id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 12
+    GoalId:
+      in: path
+      name: goal-id
+      description: goal id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 12
   schemas:
     User:
       type: object
@@ -217,12 +336,6 @@ components:
         height:
           type: decimal
           example: 160
-        age:
-          type: integer
-          example: 45
-        community:
-          type: string
-          example: Asian
         user-id:
           type: integer
           example: 05
@@ -238,12 +351,6 @@ components:
         height:
           type: decimal
           example: 160
-        age:
-          type: integer
-          example: 45
-        community:
-          type: string
-          example: Asian
         bmival:
           type: decimal
           example: 22.3
@@ -253,3 +360,60 @@ components:
         createdat:
           type: timestamp
           example: 2020-06-10 05:59:27
+    goalreq:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        goal_category:
+          type: string
+          example: bmi
+        description:
+          type: string
+          example: Do more exercises
+        user-id:
+          type: integer
+          example: 05
+        createdat:
+          type: datetime
+          example: 2020-06-10 05:59:27 +0000
+    Goal:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        goal_category:
+          type: string
+          example: bmi
+        description:
+          type: string
+          example: Do more exercises
+        user-id:
+          type: integer
+          example: 05
+        createdat:
+          type: date
+          example: 2020-06-10 05:59:27 +0000
+    Waterintake:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        weight:
+          type: decimal
+          example: 45.6
+        waterconsumed:
+          type: decimal
+          example: 5.6
+        dailyrequired:
+          type: decimal
+          example: 17.6
+        user-id:
+          type: integer
+          example: 05
+        createdat:
+          type: date
+          example: 2020-06-10 05:59:27 +0000

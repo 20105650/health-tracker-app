@@ -3,8 +3,10 @@ package ie.setu.domain
 import org.joda.time.DateTime
 
 data class Activity (var id: Int,
-                     var description:String,
+                     var activity:String,
+                     var weight: Double,
                      var duration: Double,
-                     var calories: Int,
-                     var started: DateTime,
-                     var userId: Int)
+                     var type: String,
+                     var calories: Double,
+                     var createdat: DateTime,
+                     var user_id: Int)

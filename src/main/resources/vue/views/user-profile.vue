@@ -46,18 +46,21 @@
       </div>
       <div class="card-footer text-center">
         <div class="row">
-        <div class="col-3" v-if="user">
-          <a :href="`/users/${user.id}/activities`">View User Excercises</a>
-        </div>
-        <div class="col-3"  v-if="user">
-          <a :href="`/users/${user.id}/bmi`">Calculate BMI</a>
-        </div>
-        <div class="col-3"  v-if="user">
-          <a :href="`/users/${user.id}/sleep-monitor`">Sleep Monitoring</a>
-        </div>
-        <div class="col-3"  v-if="user">
-          <a :href="`/users/${user.id}/water-intakes`">Water Intake</a>
-        </div>
+          <div class="col-md-3 user-btn" v-if="user">
+            <a :href="`/users/${user.id}/activities`">View User Excercises</a>
+          </div>
+          <div class="col-md-3 user-btn"  v-if="user">
+            <a :href="`/users/${user.id}/bmi`">Calculate BMI</a>
+          </div>
+          <!--<div class="col-md-3 user-btn"  v-if="user">
+            <a :href="`/users/${user.id}/sleep-monitor`">Sleep Monitoring</a>
+          </div> -->
+          <div class="col-md-3 user-btn"  v-if="user">
+            <a :href="`/users/${user.id}/water-intakes`">Water Intake</a>
+          </div>
+          <div class="col-md-3 user-btn"  v-if="user">
+            <a :href="`/users/${user.id}/goals`">Your Goals</a>
+          </div>
         </div>
       </div>
     </div>
@@ -120,3 +123,13 @@ app.component("user-profile", {
   }
 });
 </script>
+<style>
+.user-btn{
+  background-color: #176883;
+  color: white;
+  padding: 15px 25px;
+  margin: 5px 1px;
+  text-decoration: none;
+}
+.user-btn a{ color:white;text-decoration: none; }
+</style>

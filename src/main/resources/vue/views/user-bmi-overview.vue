@@ -3,9 +3,7 @@
     <div class="card bg-light mb-3">
       <div class="card-header">
         <div class="row">
-          <div class="col-6">
-            Add BMI
-          </div>
+          <div class="col-6">Add BMI </div>
           <div class="col" align="right">
             <button rel="tooltip" title="Add"
                     class="btn btn-info btn-simple btn-link"
@@ -37,13 +35,13 @@
       </div>
     </div>
     <div class="list-group list-group-flush">
-      <h3 class="col-6">BMI History</h3>
+      <h1></h1> <h1></h1><h1></h1> <h1></h1>
+      <h3 class="col-6" style="color: #ec5525;font-size: 18px;text-transform: uppercase;">Previous BMI Data</h3>
       <table class="table">
         <thead>
         <tr>
           <th scope="col">WEIGHT</th>
           <th scope="col">HEIGHT</th>
-          <th scope="col">AGE</th>
           <th scope="col">BMI</th>
           <th scope="col">RESULT</th>
           <th scope="col">CREATED AT</th>
@@ -54,7 +52,6 @@
         <tr v-for="(bmi,index) in bmis" v-bind:key="index">
           <td>{{ bmi.weight }}</td>
           <td>{{ bmi.height }}</td>
-          <td>{{ bmi.age }}</td>
           <td>{{ bmi.bmival }}</td>
           <td>{{ bmi.bmiresult}}</td>
           <td>{{ bmi.createdat }}</td>
@@ -134,8 +131,6 @@ app.component("user-bmi-overview", {
             weight: this.formData.weight,
             height: this.formData.height,
             user_id:userId,
-            age:hwold,
-            community:"Asian",
             createdat:new Date().toISOString()
 
           })

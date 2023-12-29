@@ -77,14 +77,32 @@ object TestUtilities {
     }
 
     //helper function to add an activity
-    fun addActivity(description: String, duration: Double, calories: Int,
-                            started: DateTime, userId: Int): HttpResponse<JsonNode> {
+    fun addActivity(
+        description: String, duration: Double, calories: Double,
+        started: DateTime, userId: Int): HttpResponse<JsonNode> {
         return Unirest.post(origin + "/api/activities")
             .body("""
                 {
                    "description":"$description",
                    "duration":$duration,
                    "calories":$calories,
+                   "started":"$started",
+                   "userId":$userId
+                }
+            """.trimIndent())
+            .asJson()
+    }
+    //helper function to add a bmi
+    fun addBmi(
+        weight: Double, height: Double, bmival: Double,bmiresult: String,
+        started: DateTime, userId: Int): HttpResponse<JsonNode> {
+        return Unirest.post(origin + "/api/bmis")
+            .body("""
+                {
+                   "weight":$weight,
+                   "height":$height,
+                   "bmival":$bmival,
+                   "bmiresult":"$bmiresult",
                    "started":"$started",
                    "userId":$userId
                 }

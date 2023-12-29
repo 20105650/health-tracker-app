@@ -48,12 +48,12 @@ object ActivityController {
 
     fun addActivity(ctx: Context) {
         //mapper handles the serialisation of Joda date into a String.
-        val activity: Activity = jsonToObject(ctx.body())
-        val userId = userDao.findById(activity.userId)
+        val excercise: Activity = jsonToObject(ctx.body())
+        val userId = userDao.findById(excercise.user_id)
         if (userId != null) {
-            val activityId = activityDAO.save(activity)
-            activity.id = activityId
-            ctx.json(activity)
+            val activityId = activityDAO.save(excercise)
+            excercise.id = activityId
+            ctx.json(excercise)
             ctx.status(201)
         } else {
             ctx.status(404)

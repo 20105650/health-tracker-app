@@ -16,7 +16,7 @@
               <a class="nav-link" href="/users">Users <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
+          <!--  <li class="nav-item">
               <a class="nav-link" href="/activities">ACTIVITIES</a>
             </li>
             <li class="nav-item">
@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/biometric">BIOMETRIC</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </nav>
