@@ -44,7 +44,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/20)
+    (0/21)
   </span>
 </td>
 <td class="coverageStat">
@@ -52,7 +52,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/57)
+    (0/60)
   </span>
 </td>
 </tr>
@@ -82,7 +82,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/21)
+    (0/22)
   </span>
 </td>
 <td class="coverageStat">
@@ -90,7 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/58)
+    (0/61)
   </span>
 </td>
 </tr>
@@ -107,6 +107,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import ie.setu.controllers.BmiController
 &nbsp;import ie.setu.controllers.UserController
 &nbsp;import ie.setu.controllers.WaterintakeController
+&nbsp;import ie.setu.controllers.GoalController
 &nbsp;import ie.setu.utils.jsonObjectMapper
 &nbsp;import io.javalin.Javalin
 &nbsp;import io.javalin.apibuilder.ApiBuilder.*
@@ -148,6 +149,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                    }
 <b class="nc">&nbsp;                    path(&quot;bmis&quot;) {</b>
 <b class="nc">&nbsp;                        get(BmiController::getBmisByUserId)</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    path(&quot;goals&quot;) {</b>
+<b class="nc">&nbsp;                        get(GoalController::getGoalsByUserId)</b>
 &nbsp;                    }
 <b class="nc">&nbsp;                    path(&quot;waterintakes&quot;) {</b>
 <b class="nc">&nbsp;                        get(WaterintakeController::getWaterintakesByUserId)</b>
@@ -196,6 +200,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            get(&quot;/users/{user-id}/bmi&quot;, VueComponent(&quot;&lt;user-bmi-overview&gt;&lt;/user-bmi-overview&gt;&quot;))</b>
 <b class="nc">&nbsp;            get(&quot;/activities&quot;, VueComponent(&quot;&lt;activities-overview&gt;&lt;/activities-overview&gt;&quot;))</b>
 <b class="nc">&nbsp;            get(&quot;/users/{user-id}/water-intakes&quot;, VueComponent(&quot;&lt;water-intake&gt;&lt;/water-intake&gt;&quot;))</b>
+<b class="nc">&nbsp;            get(&quot;/users/{user-id}/goals&quot;, VueComponent(&quot;&lt;goals-overview&gt;&lt;/goals-overview&gt;&quot;))</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    private fun getRemoteAssignedPort(): Int {
@@ -228,7 +233,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-28 12:02</div>
+    <div style="float:right;">generated on 2023-12-28 21:53</div>
 </div>
 </body>
 </html>

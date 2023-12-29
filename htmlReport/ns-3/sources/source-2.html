@@ -57,6 +57,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
+    <td class="name">BmiController$calculateBmi$$inlined$jsonToObject$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
     <td class="name">BmiController$calculateBmi$$inlined$readValue$1</td>
 <td class="coverageStat">
   <span class="percent">
@@ -79,18 +98,18 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    14.3%
   </span>
   <span class="absValue">
-    (1/6)
+    (1/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.5%
+    9.1%
   </span>
   <span class="absValue">
-    (2/21)
+    (2/22)
   </span>
 </td>
 </tr>
@@ -109,46 +128,71 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.fasterxml.jackson.module.kotlin.readValue
 &nbsp;import ie.setu.domain.Bmi
 &nbsp;import ie.setu.domain.repository.UserDAO
+&nbsp;import ie.setu.domain.repository.GoalDAO
+&nbsp;import ie.setu.domain.Goal
 &nbsp;import ie.setu.utils.jsonToObject
 &nbsp;import com.fasterxml.jackson.databind.SerializationFeature
 &nbsp;import com.fasterxml.jackson.datatype.joda.JodaModule
 &nbsp;import ie.setu.domain.Activity
+&nbsp;import org.joda.time.LocalDateTime
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;object BmiController {</b>
 &nbsp;
-&nbsp;object BmiController {
-&nbsp;
-<b class="fc">&nbsp;    private val bmiDAO = BmiDAO()</b>
-<b class="fc">&nbsp;    private val userDao = UserDAO()</b>
-&nbsp;
-&nbsp;    fun calculateBmi(ctx: Context) {
-&nbsp;        //mapper handles the serialisation of Joda date into a String.
+&nbsp;    private val bmiDAO = BmiDAO()
+&nbsp;    private val userDao = UserDAO()
+<b class="nc">&nbsp;    private val goalDao = GoalDAO()</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;    fun calculateBmi(ctx: Context) {</b>
+<b class="nc">&nbsp;        //mapper handles the serialisation of Joda date into a String.</b>
 <b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
 <b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        val bmi = mapper.readValue&lt;Bmi&gt;(ctx.body())</b>
-<b class="nc">&nbsp;        bmiDAO.save(bmi)</b>
-<b class="nc">&nbsp;        ctx.json(bmi)</b>
+&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+&nbsp;        val bmi = mapper.readValue&lt;Bmi&gt;(ctx.body())
+&nbsp;        val bmiId = bmiDAO.save(bmi)
+<b class="nc">&nbsp;        var descr = &quot;&quot;</b>
+<b class="nc">&nbsp;        if(bmiId != null){</b>
+<b class="nc">&nbsp;            var bmidata = bmiDAO.findByBmiId(bmiId)</b>
+<b class="nc">&nbsp;            if (bmidata != null) {</b>
+&nbsp;                if(bmidata.bmival &lt; 18.5){
+&nbsp;                    descr = &quot;Eating more frequently Do more Exercise.&quot;
+<b class="nc">&nbsp;                } else if (bmidata.bmival &gt;= 18.5 &amp;&amp; bmidata.bmival &lt; 23){</b>
+<b class="nc">&nbsp;                    descr = &quot;Maintain Healthy&quot;</b>
+<b class="nc">&nbsp;                } else if (bmidata.bmival &gt;= 23 &amp;&amp; bmidata.bmival &lt; 27.5){</b>
+&nbsp;                    descr = &quot;Eating less.Do more Exercise.&quot;
+<b class="nc">&nbsp;                } else {</b>
+<b class="nc">&nbsp;                    descr = &quot;Do more Exercise and eat less&quot;</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            if (bmidata != null) {
+&nbsp;                val goal: Goal = jsonToObject(
+&nbsp;                    &quot;&quot;&quot;{&quot;goal_category&quot;: &quot;bmi&quot;, &quot;description&quot;: &quot;${ descr }&quot;, &quot;createdat&quot;: &quot;${LocalDateTime.now()}&quot;, &quot;user_id&quot;: ${ bmidata.user_id }}&quot;&quot;&quot;
+&nbsp;                )
+<b class="nc">&nbsp;                goalDao.save(goal)</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        ctx.json(bmi)
 &nbsp;    }
 &nbsp;    fun getbmis(ctx: Context) {
 &nbsp;        //mapper handles the deserialization of Joda date into a String.
-<b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        ctx.json(mapper.writeValueAsString( bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt()) ))</b>
+&nbsp;        val mapper = jacksonObjectMapper()
+&nbsp;            .registerModule(JodaModule())
+&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+&nbsp;        ctx.json(mapper.writeValueAsString( bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt()) ))
 &nbsp;    }
 &nbsp;    fun getBmisByUserId(ctx: Context) {
-<b class="nc">&nbsp;        if (BmiController.userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
-<b class="nc">&nbsp;            val bmis = BmiController.bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
-<b class="nc">&nbsp;            if (bmis.isNotEmpty()) {</b>
+&nbsp;        if (BmiController.userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {
+&nbsp;            val bmis = BmiController.bmiDAO.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())
+&nbsp;            if (bmis.isNotEmpty()) {
 &nbsp;                //mapper handles the deserialization of Joda date into a String.
-<b class="nc">&nbsp;                val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;                    .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;                ctx.json(mapper.writeValueAsString(bmis))</b>
+&nbsp;                val mapper = jacksonObjectMapper()
+&nbsp;                    .registerModule(JodaModule())
+&nbsp;                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+&nbsp;                ctx.json(mapper.writeValueAsString(bmis))
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
 &nbsp;    fun deleteBmiById(ctx: Context) {
-<b class="nc">&nbsp;        BmiController.bmiDAO.delete(ctx.pathParam(&quot;bmi-id&quot;).toInt())</b>
+&nbsp;        BmiController.bmiDAO.delete(ctx.pathParam(&quot;bmi-id&quot;).toInt())
 &nbsp;    }
 &nbsp;}
 </code>
@@ -174,7 +218,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-28 12:02</div>
+    <div style="float:right;">generated on 2023-12-28 21:53</div>
 </div>
 </body>
 </html>

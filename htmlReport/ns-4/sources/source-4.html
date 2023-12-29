@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > Waterintake</title>
+  <title>Coverage Report > User</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">ie.setu.domain</a>
 </div>
 
-<h1>Coverage Summary for Class: Waterintake (ie.setu.domain)</h1>
+<h1>Coverage Summary for Class: User (ie.setu.domain)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Waterintake</td>
+  <td class="name">User</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/6)
+    (4/4)
   </span>
 </td>
 </tr>
@@ -77,14 +77,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.domain
 &nbsp;
-&nbsp;import org.joda.time.DateTime
-&nbsp;
-<b class="nc">&nbsp;data class Waterintake (var id: Int,</b>
-<b class="nc">&nbsp;                var weight:Double,</b>
-<b class="nc">&nbsp;                var waterconsumed: Double,</b>
-<b class="nc">&nbsp;                var dailyrequired: Double,</b>
-<b class="nc">&nbsp;                var user_id: Int,</b>
-<b class="nc">&nbsp;                var createdat: DateTime)</b>
+<b class="fc">&nbsp;import java.util.*</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;data class User(</b>
+<b class="fc">&nbsp;    var id: Int,</b>
+&nbsp;    var name:String,
+&nbsp;    var email:String
+&nbsp;)
 </code>
 </pre>
 </div>
@@ -108,7 +107,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-28 12:02</div>
+    <div style="float:right;">generated on 2023-12-28 21:53</div>
 </div>
 </body>
 </html>
