@@ -85,30 +85,30 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import ie.setu.domain.Waterintake
 &nbsp;import ie.setu.domain.db.Bmis
 &nbsp;import ie.setu.domain.db.Waterintakes
+<b class="fc">&nbsp;import ie.setu.domain.Goal</b>
+<b class="fc">&nbsp;import ie.setu.domain.db.Goals</b>
 <b class="fc">&nbsp;import org.jetbrains.exposed.sql.ResultRow</b>
 <b class="fc">&nbsp;</b>
-<b class="fc">&nbsp;fun mapToUser(it: ResultRow) = User(</b>
-<b class="fc">&nbsp;    id = it[Users.id],</b>
-&nbsp;    name = it[Users.name],
-&nbsp;    email = it[Users.email]
+&nbsp;fun mapToUser(it: ResultRow) = User(
+&nbsp;    id = it[Users.id],
+<b class="fc">&nbsp;    name = it[Users.name],</b>
+<b class="fc">&nbsp;    email = it[Users.email]</b>
 <b class="fc">&nbsp;)</b>
 <b class="fc">&nbsp;</b>
 <b class="fc">&nbsp;fun mapToActivity(it: ResultRow) = Activity(</b>
 <b class="fc">&nbsp;    id = it[Activities.id],</b>
 <b class="fc">&nbsp;    description = it[Activities.description],</b>
-<b class="fc">&nbsp;    duration = it[Activities.duration],</b>
-<b class="fc">&nbsp;    started = it[Activities.started],</b>
+&nbsp;    duration = it[Activities.duration],
+&nbsp;    started = it[Activities.started],
 &nbsp;    calories = it[Activities.calories],
-&nbsp;    userId = it[Activities.userId]
-&nbsp;)
+<b class="nc">&nbsp;    userId = it[Activities.userId]</b>
+<b class="nc">&nbsp;)</b>
 <b class="nc">&nbsp;</b>
 <b class="nc">&nbsp;</b>
 <b class="nc">&nbsp;fun mapToBmi(it: ResultRow) = Bmi(</b>
 <b class="nc">&nbsp;    id = it[Bmis.id],</b>
 <b class="nc">&nbsp;    weight = it[Bmis.weight],</b>
 <b class="nc">&nbsp;    height = it[Bmis.height],</b>
-<b class="nc">&nbsp;    age = it[Bmis.age],</b>
-<b class="nc">&nbsp;    community = it[Bmis.community],</b>
 <b class="nc">&nbsp;    bmival = it[Bmis.bmival],</b>
 <b class="nc">&nbsp;    bmiresult = it[Bmis.bmiresult],</b>
 &nbsp;    user_id = it[Bmis.userId],
@@ -122,6 +122,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    dailyrequired = it[Waterintakes.dailyrequired],
 &nbsp;    user_id = it[Waterintakes.userId],
 &nbsp;    createdat = it[Waterintakes.createdat]
+&nbsp;)
+&nbsp;fun mapToGoal(it: ResultRow) = Goal(
+&nbsp;    id = it[Goals.id],
+&nbsp;    goal_category = it[Goals.goal_category],
+&nbsp;    description = it[Goals.description],
+&nbsp;    user_id = it[Goals.userId],
+&nbsp;    createdat = it[Goals.createdat]
 &nbsp;)
 </code>
 </pre>
@@ -146,7 +153,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-28 12:02</div>
+    <div style="float:right;">generated on 2023-12-28 21:53</div>
 </div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
-  <title>Coverage Report > WaterintakeController</title>
+  <title>Coverage Report > UserController</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">ie.setu.controllers</a>
 </div>
 
-<h1>Coverage Summary for Class: WaterintakeController (ie.setu.controllers)</h1>
+<h1>Coverage Summary for Class: UserController (ie.setu.controllers)</h1>
 
 <table class="coverageStats">
 
@@ -38,26 +38,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">WaterintakeController</td>
+  <td class="name">UserController</td>
 <td class="coverageStat">
   <span class="percent">
-    20%
+    100%
   </span>
   <span class="absValue">
-    (1/5)
+    (7/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    10%
+    96.6%
   </span>
   <span class="absValue">
-    (2/20)
+    (28/29)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">WaterintakeController$calculateWaterintake$$inlined$readValue$1</td>
+    <td class="name">UserController$addUser$$inlined$jsonToObject$1</td>
+  </tr>
+  <tr>
+    <td class="name">UserController$updateUser$$inlined$jsonToObject$1</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -75,22 +78,25 @@ Current scope:     <a href="../../index.html">all classes</a>
   </span>
 </td>
   </tr>
+  <tr>
+    <td class="name">UserController$updateUser$$inlined$readValue$1</td>
+  </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    16.7%
+    87.5%
   </span>
   <span class="absValue">
-    (1/6)
+    (7/8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.5%
+    93.3%
   </span>
   <span class="absValue">
-    (2/21)
+    (28/30)
   </span>
 </td>
 </tr>
@@ -103,53 +109,78 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package ie.setu.controllers
 &nbsp;
+&nbsp;import ie.setu.domain.repository.UserDAO
 &nbsp;import io.javalin.http.Context
 &nbsp;import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 &nbsp;import com.fasterxml.jackson.module.kotlin.readValue
-&nbsp;import ie.setu.domain.Bmi
-&nbsp;import ie.setu.domain.repository.UserDAO
+&nbsp;
+&nbsp;import ie.setu.domain.User
 &nbsp;import ie.setu.utils.jsonToObject
-&nbsp;import com.fasterxml.jackson.databind.SerializationFeature
-&nbsp;import com.fasterxml.jackson.datatype.joda.JodaModule
-&nbsp;import ie.setu.domain.Waterintake
-&nbsp;import ie.setu.domain.repository.WaterintakeDAO
 &nbsp;
-&nbsp;object WaterintakeController {
+&nbsp;object UserController {
 &nbsp;
-<b class="fc">&nbsp;    private val waterintakeDao = WaterintakeDAO()</b>
 <b class="fc">&nbsp;    private val userDao = UserDAO()</b>
 &nbsp;
-&nbsp;    fun calculateWaterintake(ctx: Context) {
-&nbsp;        //mapper handles the serialisation of Joda date into a String.
-<b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        val waterintake = mapper.readValue&lt;Waterintake&gt;(ctx.body())</b>
-<b class="nc">&nbsp;        waterintakeDao.save(waterintake)</b>
-<b class="nc">&nbsp;        ctx.json(waterintake)</b>
+&nbsp;    fun getAllUsers(ctx: Context) {
+<b class="fc">&nbsp;        val users = userDao.getAll()</b>
+<b class="fc">&nbsp;        if (users.size != 0) {</b>
+<b class="fc">&nbsp;            ctx.status(200)</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="nc">&nbsp;            ctx.status(404)</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ctx.json(users)</b>
 &nbsp;    }
-&nbsp;    fun getwaterintakes(ctx: Context) {
-&nbsp;        //mapper handles the deserialization of Joda date into a String.
-<b class="nc">&nbsp;        val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;            .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;        ctx.json(mapper.writeValueAsString( waterintakeDao.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt()) ))</b>
-&nbsp;    }
-&nbsp;    fun getWaterintakesByUserId(ctx: Context) {
-<b class="nc">&nbsp;        if (WaterintakeController.userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt()) != null) {</b>
-<b class="nc">&nbsp;            val waterintakes = WaterintakeController.waterintakeDao.findByUserId(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
-<b class="nc">&nbsp;            if (waterintakes.isNotEmpty()) {</b>
-&nbsp;                //mapper handles the deserialization of Joda date into a String.
-<b class="nc">&nbsp;                val mapper = jacksonObjectMapper()</b>
-<b class="nc">&nbsp;                    .registerModule(JodaModule())</b>
-<b class="nc">&nbsp;                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)</b>
-<b class="nc">&nbsp;                ctx.json(mapper.writeValueAsString(waterintakes))</b>
-&nbsp;            }
+&nbsp;    fun getUserByUserId(ctx: Context) {
+<b class="fc">&nbsp;        val user = userDao.findById(ctx.pathParam(&quot;user-id&quot;).toInt())</b>
+<b class="fc">&nbsp;        if (user != null) {</b>
+<b class="fc">&nbsp;            ctx.json(user)</b>
+<b class="fc">&nbsp;            ctx.status(200)</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            ctx.status(404)</b>
 &nbsp;        }
 &nbsp;    }
-&nbsp;    fun deleteWaterintakeById(ctx: Context) {
-<b class="nc">&nbsp;        WaterintakeController.waterintakeDao.delete(ctx.pathParam(&quot;waterintake-id&quot;).toInt())</b>
+&nbsp;    fun getUserByUserEmail(ctx: Context) {
+<b class="fc">&nbsp;        val user = userDao.findByEmail(ctx.pathParam(&quot;user-email&quot;))</b>
+<b class="fc">&nbsp;        if (user != null) {</b>
+<b class="fc">&nbsp;            ctx.json(user)</b>
+<b class="fc">&nbsp;            ctx.status(200)</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            ctx.status(404)</b>
+<b class="nc">&nbsp;        }</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    fun addUser(ctx: Context){
+<b class="fc">&nbsp;        val mapper = jacksonObjectMapper()</b>
+<b class="fc">&nbsp;        var user: User = jsonToObject(ctx.body())</b>
+<b class="fc">&nbsp;        val userId = userDao.save(user)</b>
+<b class="fc">&nbsp;        if (userId != null) {</b>
+<b class="fc">&nbsp;            user = user.copy(id = userId) // Use the copy function to create a new user with the updated id</b>
+<b class="fc">&nbsp;            ctx.json(user)</b>
+<b class="fc">&nbsp;            ctx.status(201)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun deleteUserByUserId(ctx: Context) {
+<b class="fc">&nbsp;        if(userDao.delete(ctx.pathParam(&quot;user-id&quot;).toInt()) != 0)</b>
+<b class="fc">&nbsp;            ctx.status(204)</b>
+&nbsp;        else
+<b class="fc">&nbsp;            ctx.status(404)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    fun updateUser(ctx: Context){
+<b class="fc">&nbsp;       /* val mapper = jacksonObjectMapper()</b>
+<b class="fc">&nbsp;        val userData = mapper.readValue&lt;User&gt;(ctx.body())</b>
+<b class="fc">&nbsp;        userDao.update(id = ctx.pathParam(&quot;user-id&quot;).toInt() , user = userData) */</b>
+&nbsp;        val foundUser : User = jsonToObject(ctx.body())
+&nbsp;        if ((userDao.update(id = ctx.pathParam(&quot;user-id&quot;).toInt(), user=foundUser)) != 0)
+&nbsp;            ctx.status(204)
+&nbsp;        else
+&nbsp;            ctx.status(404)
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -174,7 +205,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-28 12:02</div>
+    <div style="float:right;">generated on 2023-12-28 21:53</div>
 </div>
 </body>
 </html>
